@@ -65,8 +65,16 @@ std::byte *deleterprint() {
             count++;
         }
     }
-    std::cout << "\nвведите номер блока для очищения: ";
-    std::cin >> value;
+    while (true) {
+        std::cout << "\nвведите номер блока для очищения: ";
+        if (std::cin >> value && value<16 && value >= 0) {
+            break;
+        } else {
+            std::cout << "Ошибка, Попробуйте снова.\n";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    }
     std::cout << "вы выбрали:" << (array + (value * 64)) << std::endl;
     return (array + (value * 64));
 }

@@ -12,9 +12,17 @@ int main() {
         std::cin >> a;
 
         if (a == "1") {
-            std::cout << "\nвведите количество элементов: ";
-            std::cin >> count;
-            push(count);
+            while (true) {
+                std::cout << "\nвведите количество элементов: ";
+                if (std::cin >> count) {
+                    push(count);
+                    break;
+                } else {
+                    std::cout << "Ошибка, Попробуйте снова.\n";
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                }
+            }
         } else if (a == "2") {
             print();
         } else if (a == "3") {
