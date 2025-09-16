@@ -7,15 +7,17 @@ void push(int &count) {
     int free=0;
     int upfree=0;
     int fullfree=0;
+    int freenuls=0;
+    std::byte *address;
 
-    for (int i = 0; i < 1024; i++) //if (*(array+i)==std::byte{0}) upfree++;
+    for (int i = 0; i < 1024; i++)
     {
         if (*(array+i)==std::byte{0})
         {
                 fullfree++;
                 free++;
         }
-        else {
+        if (i==1023 || *(array+i)==std::byte {2} ){
                 if(free>upfree) {
                     upfree=free;
                     free=0;
@@ -25,20 +27,28 @@ void push(int &count) {
     std::cout << fullfree << std::endl;
     std::cout << upfree << std::endl;
     if (replays>upfree/64) std::cout << "не хватает памяти";
-    else
-        for (int k = 0; k < replays; k++) {
-            for (int i = 0; i < 1024; ++i) {
-                if (*(array+i)==std::byte{0}) {
-                    std::cout <<"адрес выделенного участка: "<< (array+i) << std::endl;
-                    for (int j = i; j < i+64; ++j)
-                    {
-                        if (j==i) *(array+i)=std::byte{2};
-                        else *(array+j)=std::byte{1};
+    else{
+            for (int g = 0; g < 1024; g++) {
+                if (*(array+g)==std::byte {0}) {
+                    freenuls++;
+                }
+                else freenuls=0;
+                if (freenuls==replays*64) {
+                    address = (array+(g-freenuls+1));
+                    for (int j = 0; j < replays; j++) {
+                        std::cout <<"адрес выделенного участка: "<< (address) << std::endl;
+                        for (int i = 0; i < 64; i++) {
+                            if (i==0) *(address+i)=std::byte{2};
+                            else *(address+i)=std::byte{1};
+                        }
+                        address = (address+64);
                     }
                     break;
                 }
             }
         }
+
+
     }
 void deleter(std::byte *address)
 {
@@ -67,6 +77,7 @@ std::byte* deleterprint() {
 }
 void print() {
     for (int i = 0; i < 1024;) {
+
         if (*(array+i)==std::byte{2}) {
             std::cout<<"1";
             i+=64;
@@ -87,6 +98,7 @@ int main() {
         if (a == "1") {
             std::cin >> count;
             push(count);
+
         }
         if (a == "2") {
             print();
